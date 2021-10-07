@@ -1,0 +1,121 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'card-head-lg'">
+        <ng-container ktPortletTitle>
+            <div>Facturas</div>
+            | {{total}} total
+        </ng-container>
+        <ng-container ktPortletTools *ngIf="userRole == '1' || userRole == '10'">
+            <button mat-raised-button (click)="exportToExcel()" color="primary" type="button" style="margin-right: 20px;">
+				<span>Reporte de Transacciones</span>
+            </button>
+            <button mat-raised-button color="primary" type="button" (click)="new()">
+                <span> Nueva Factura</span>
+            </button>
+        </ng-container>
+
+    </kt-portlet-header>
+    <kt-portlet-body>
+        <div class="kt-margin-bottom-10-mobile" [formGroup]="filterForm">
+            <div class="row">
+
+                <mat-form-field class="col-md-3 col-lg-3 col-sm" style="margin-left: 20px;">
+                    <input matInput placeholder="Buscar Clientes" (keyup)="applyFilter($event.target.value)" />
+                </mat-form-field>
+                <mat-form-field class="col-md-3 col-lg-3 col-sm" style="margin-left: 20px;">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="fromDate" (dateChange)="dateFilter($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="col-md-3 col-lg-3 col-sm" style="margin-left: 20px;">
+                    <mat-label>hasta</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="toDate" (dateChange)="dateFilter($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="scrollview">
+            <mat-table style="min-width: 555px;" [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="check">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                    <mat-cell *matCellDef="let invoice">
+                        <mat-checkbox></mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="idinvoice">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice; let i = index" (click)="detail(invoice)">{{invoice.idinvoice}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="detail(invoice)">{{invoice.date}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="customer">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="detail(invoice)">{{invoice.customer}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Órdenes</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="detail(invoice)">{{invoice.orders?.length}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="detail(invoice)">{{invoice.total}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="detail(invoice)">
+                        <div *ngIf="invoice.paymentStatus == 0" class="status0">
+                            ABIERTO
+                        </div>
+                        <div *ngIf="invoice.paymentStatus == 1" class="status2">
+                            No pagado
+
+                        </div>
+                        <div *ngIf="invoice.paymentStatus == 2" class="status5">
+                            Parcial
+                        </div>
+                        <div *ngIf="invoice.paymentStatus == 3" class="status3">
+                            Pagado
+                        </div>
+                        <!-- <ng-container *ngIf="invoice.status == 1">
+                            <div *ngIf="checkpaid(invoice) == '0'" class="status3">
+                                Unpaid
+                            </div>
+                            <div *ngIf="checkpaid(invoice) == '1'" class="status2">
+                                Partial
+                            </div>
+                            <div *ngIf="checkpaid(invoice) == '2'" class="status1">
+                                Paid
+                            </div>
+                        </ng-container> -->
+
+                    </mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="edit">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                    <mat-cell *matCellDef="let invoice" (click)="edit(invoice)">
+                        <button mat-button><mat-icon>editar</mat-icon></button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+        </div>
+
+        <!-- start: BOTTOM -->
+        <mat-paginator [showFirstLastButtons]="true" [pageSize]="10" [length]="10" [pageSizeOptions]="[10, 20, 30, 40]"></mat-paginator>
+
+    </kt-portlet-body>
+</kt-portlet>

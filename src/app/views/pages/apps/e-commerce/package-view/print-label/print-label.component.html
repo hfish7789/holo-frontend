@@ -1,0 +1,31 @@
+<mat-card id="print" style="width: 2in;height: 4in; margin-left: auto;margin-right: auto;margin-top: 40px;margin-bottom: 40px;">
+    <img src="./assets/media/logos/logo-HOLOEXPRESS-gris.png" class="max-h-70px" />
+    <!-- <div class="max-h-70px" style="background: grey;width: 100%;height: 100%;"></div> -->
+    <ngx-barcode [bc-value]="data.pack.tracking" bc-format="CODE128" [bc-display-value]="true" [bc-width]="1.59" [bc-height]="70"></ngx-barcode>
+    <!-- <div class="row" style="width: fit-content;margin-left: auto;margin-right: auto;">
+        {{data.pack.tracking}}
+    </div> -->
+    <div class="separator separator-dashed my-6" style="margin-top: 0px !important; margin-bottom: 5px !important;"></div>
+    <div class="col">
+        <div>Peso: <strong>{{data.pack.weight}}KG</strong></div>
+        <div>Tamaño: <strong>{{data.pack.height}}cm *{{data.pack.length}}cm *{{data.pack.width}}cm</strong></div>
+    </div>
+    <div class="separator separator-dashed my-6" style="margin-top: 5px !important; margin-bottom: 5px !important;"></div>
+    <div class="col">
+        <div>De: {{(customer?.company != null && customer?.company != undefined && customer?.company != "") ? customer?.company : customer?.firstName}}</div>
+        <div>Para: {{order?.deliveryName}}</div>
+        <div>Orden: {{data.pack.idorders}}</div>
+        <div>Fecha: {{data.pack.date}}</div>
+    </div>
+    <div>
+        <div class="col">
+            <div style="font-size: 8px; text-align: center;">www.holoexpresspanama.com</div>
+            <div style="font-size: 8px; text-align: center;">2460977 / 2460978</div>
+        </div>
+    </div>
+</mat-card>
+<!-- <div class="row" style="width: fit-content;margin-left: auto;margin-right: auto;margin-bottom: 30px;">
+    <button mat-raised-button color="primary" type="button" onclick="window.print()">
+        <span>Print</span>
+    </button>
+</div> -->

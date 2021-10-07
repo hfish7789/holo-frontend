@@ -1,0 +1,64 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'card-head-lg'">
+        <ng-container ktPortletTitle>
+            <div>Mis Órdenes</div>
+            | {{total}} total
+        </ng-container>
+        <ng-container ktPortletTools>
+            <button mat-raised-button matTooltip="Create new customer" color="primary" type="button" (click)="createOrder()">
+				<span>Crear Orden</span>
+			</button>
+        </ng-container>
+
+    </kt-portlet-header>
+    <kt-portlet-body class="scrollview">
+
+        <mat-table style="min-width: 500px;" [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                <mat-cell *matCellDef="let order; let i = index" (click)="detail(order)">{{order.idorders}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let order" (click)="detail(order)">{{order.date}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                <mat-cell *matCellDef="let order" (click)="detail(order)">
+                    <ng-container *ngIf="order.deliveryType == 0">Estandar</ng-container>
+                    <ng-container *ngIf="order.deliveryType == 1">Domicilio</ng-container>
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="items">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Items</mat-header-cell>
+                <mat-cell *matCellDef="let order" (click)="detail(order)">{{order.items}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="messenger">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Messenger</mat-header-cell>
+                <mat-cell *matCellDef="let order" (click)="detail(order)">{{order.messenger}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+                <mat-cell *matCellDef="let order" (click)="detail(order)">
+                    <div *ngIf="order.status == 0" class="status1">Pendiente</div>
+                    <div *ngIf="order.status == 1" class="status3">En progreso</div>
+                    <div *ngIf="order.status == 2" class="status0">Terminado</div>
+                    <div *ngIf="order.status == 3" class="status2">Cancelado</div>
+                </mat-cell>
+
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+        <mat-paginator [showFirstLastButtons]="true" [pageSize]="10" [length]="10" [pageSizeOptions]="[10, 20, 30, 40]"></mat-paginator>
+
+    </kt-portlet-body>
+</kt-portlet>

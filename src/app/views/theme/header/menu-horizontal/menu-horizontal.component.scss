@@ -1,0 +1,16 @@
+:host {
+    width: 100%;
+    .header-menu-wrapper {
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .header-menu-mobile {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .header-mobile-fixed .wrapper {
+        padding-top: 75px !important;
+    }
+}

@@ -1,0 +1,60 @@
+<mat-card>
+    <mat-tab-group>
+        <mat-tab label="General">
+            <mat-card>
+                <div class="row">
+                    <div class="col-md-6" [formGroup]="settingForm">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Compañia" formControlName="companyName" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="R.U.C" formControlName="ruc" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Calle" formControlName="street" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Estado" formControlName="state" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="País" formControlName="country" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="itbms" formControlName="itbms" />
+                        </mat-form-field>
+                        <span style="font-size: x-large;">SMTP SETTINGS</span>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="UserName" formControlName="username" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Password" formControlName="password" />
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Port" formControlName="port" />
+                        </mat-form-field>
+                        <button mat-raised-button type="button" color="primary" (click)="save()">SAVE</button>
+
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        <span>Logo</span>
+                        <img style="width: 100%;" src="./assets/media/logos/holo.png" />
+                    </div>
+                </div>
+            </mat-card>
+        </mat-tab>
+        <mat-tab label="Paquetes">
+            <kt-package-type></kt-package-type>
+        </mat-tab>
+        <mat-tab label="Áreas y precios">
+            <kt-pricing></kt-pricing>
+        </mat-tab>
+        <mat-tab label="Grupos de clientes">
+            <kt-customer-groups></kt-customer-groups>
+        </mat-tab>
+        <mat-tab label="Gestión de usuarios">
+            <kt-user-list></kt-user-list>
+        </mat-tab>
+
+    </mat-tab-group>
+</mat-card>

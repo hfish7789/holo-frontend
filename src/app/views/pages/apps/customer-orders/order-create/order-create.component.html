@@ -1,0 +1,315 @@
+<mat-card>
+    <mat-card-header>
+        <span style="font-size: x-large;margin-left: -17px;">Información de orden</span>
+    </mat-card-header>
+
+    <div class="separator separator-dashed my-6"></div>
+
+    <mat-card-content>
+
+        <mat-card>
+            <mat-card-content>
+                <div style="margin-bottom: 10px;"><strong>Tipo de Servicio</strong></div>
+                <div style="display: flex;">
+                    <ng-container *ngIf="typeOfService == true">
+                        <button style="width: 130px;" mat-raised-button color="primary" type="button" (click)="serviceType('1')">
+                            <span>Estandar</span>
+                        </button>
+                        <button style="width: 130px;" mat-button color="primary" type="button" (click)="serviceType('2')" style="margin-left: 20px;">
+                            <span>Domicilio</span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="typeOfService == false">
+                        <button style="width: 130px;" mat-button color="primary" type="button" (click)="serviceType('1')">
+                            <span>Estandar</span>
+                        </button>
+                        <button style="width: 130px;" mat-raised-button color="primary" type="button" (click)="serviceType('2')" style="margin-left: 20px;">
+                            <span>Domicilio</span>
+                        </button>
+                    </ng-container>
+
+                </div>
+                <div *ngIf="typeOfService == true" class="col-md-5 col-lg-5 col-sm" style="margin-top: 20px; padding-left: 0px !important;">
+                    <strong>Servicio Estándar: </strong>si eliges la opción estándar, significa el paquete será llevado a nuestra sucursal para que este sea entregado en la dirección y no requiere de nuestro servicio a domicilio para que lo recojamos.
+                </div>
+                <div *ngIf="typeOfService == false" class="col-md-5 col-lg-5 col-sm" style="margin-top: 20px; padding-left: 0px !important;">
+                    <strong>Servicio a Domicilio: </strong>si eliges la opción a domicilio, significa que requieres de nuestro servicio a domicilio para que el paquete sea buscado a una dirección establecida y entregado a otra.
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <div><strong>Información de entrega</strong></div>
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row">
+                    <div [formGroup]="pickUpAddressForm" class="col-md-5" *ngIf="!typeOfService">
+                        <mat-form-field class="mat-form-field-fluid" style="">
+                            <input style="color: black;" matInput placeholder="Dirección de Recogida" formControlName="pickUpAddress" />
+                            <mat-error>Dirección de Recogida es
+                                <strong>requerido</strong>
+                            </mat-error>
+                            <mat-hint align="start">Por favor ingrese
+                                <strong>Dirección de Recogida</strong>
+                            </mat-hint>
+                        </mat-form-field>
+                        <div class="row" *ngIf="pickUpNoteFlag" style="margin-left:20px">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input appFocuss matInput placeholder="Deja notas aquí..." formControlName="pickupAddressNote" />
+                            </mat-form-field>
+                        </div>
+                        <label *ngIf="!pickUpNoteFlag" style="color: #3699fd;cursor: pointer; margin-top: 8px;" (click)="addNotes('pickup')">+ Agregar Nota</label>
+
+                        <div class="row" style="margin-left: 0px;">
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-select placeholder="Zona" formControlName="pickUpAddressState">
+                                        <ng-container *ngFor="let state of states">
+                                            <mat-option [value]="state.idstates" (click)="onStateChange(state,'p')">{{state.name}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>Zona es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor ingrese
+                                        <strong>Zona</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-select placeholder="Sub-zona" formControlName="pickUpAddressArea" (selectionChange)="calcPrice()">
+                                        <ng-container *ngFor="let area of pickUpAreas">
+                                            <mat-option [value]="area.idareas">{{area.name}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>Sub-zona es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor ingrese
+                                        <strong>Sub-zona</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div [formGroup]="deliveryAddressForm" class="col-md-5">
+                        <mat-form-field class="mat-form-field-fluid" style="">
+                            <input style="color: black;" matInput placeholder="Dirección de Entrega" formControlName="deliveryAddress" />
+                            <mat-error>Dirección de Entrega
+                                <strong>requerido</strong>
+                            </mat-error>
+                            <mat-hint align="start">Por favor ingrese
+                                <strong>Dirección de Entrega</strong>
+                            </mat-hint>
+                        </mat-form-field>
+                        <div class="row" *ngIf="deliveryNoteFlag" style="margin-left:0px">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input appFocuss matInput placeholder="Deja notas aquí..." formControlName="deliveryAddressNote" />
+                            </mat-form-field>
+                        </div>
+                        <label *ngIf="!deliveryNoteFlag" style="color: #3699fd;cursor: pointer; margin-top: 8px;" (click)="addNotes('delivery')">+ Agregar Nota</label>
+
+                        <div class="row" style="margin-left: 0px;">
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-select placeholder="Zona" formControlName="deliveryAddressState">
+                                        <ng-container *ngFor="let state of states">
+                                            <mat-option [value]="state.idstates" (click)="onStateChange(state,'d')">{{state.name}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>Zona es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor seleccione
+                                        <strong>Zona</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-4 kt-margin-bottom-20-mobile" style="padding-left: 0px; width: 200px;">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-select placeholder="Sub-zona" formControlName="deliveryAddressArea" (selectionChange)="calcPrice()">
+                                        <ng-container *ngFor="let area of deliveryAreas">
+                                            <mat-option [value]="area.idareas">{{area.name}}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                    <mat-error>Sub-zona es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor seleccione
+                                        <strong>Sub-zona</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <mat-form-field class="mat-form-field-fluid" style="margin-left: 0px;">
+                                    <input matInput placeholder="Nombre de destinatario" formControlName="deliveryName" />
+                                    <mat-error>Nombre es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor escribe
+                                        <strong>Nombre</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput placeholder="Telefono" formControlName="deliveryPhone" />
+                                    <mat-error>Telefono es
+                                        <strong>requerido</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Por favor escribe
+                                        <strong>Telefono</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row">
+                    <div class="col-lg-2 col-sm-12"><strong>Detalles de su paquete</strong></div>
+                    <div class="col-lg col-sm-12" style="text-decoration: underline; cursor: pointer;" (click)="openImage()">Instrucciones para medir mi paquete</div>
+                </div>
+                <div class="separator separator-dashed my-6"></div>
+
+
+
+
+
+                <div class="row" *ngFor="let package of getControls();let i = index" [formGroup]="package">
+                    <div class="col-lg col-5" style="margin-left: 0px;">
+                        <mat-label>Peso</mat-label>
+                        <mat-form-field appearance="outline" class="mat-form-field-fluid">
+                            <div matPrefix>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                margin-left: -7px;
+                                height: 45px;
+                                border-radius: 4px;" [matMenuTriggerFor]="menuWeightT">{{weightType}}</button>
+                                <mat-menu #menuWeightT="matMenu">
+                                    <a class="dropdown-item" (click)="changeWeightType('kg')">kg</a>
+                                    <a class="dropdown-item" (click)="changeWeightType('lb')">lb</a>
+                                </mat-menu>
+                            </div>
+                            <input matInput type="number" min="0" formControlName="weight" (change)="calcPrice()" />
+
+   <!--                          <mat-error *ngIf = "selectedValue && selectedValue == 1">Peso es{{selectedValue}}
+                                <strong>requerido</strong>
+                            </mat-error> -->
+                            <mat-error>
+                                <strong>requerido</strong>
+                            </mat-error>
+                            <mat-error *ngIf = "selectedValue && selectedValue != 1">
+                                <strong>{{ "Máximo permitido 3kg and Min 1kg" | translate }} {{selectedValue}}</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+                    <div class="col-lg col-5" style="margin-left: 0px;">
+
+                        <!-- <div class="col" style="margin-left: 20px;"> -->
+                        <mat-label>Largo</mat-label>
+                        <mat-form-field appearance="outline" class="mat-form-field-fluid">
+                            <div matPrefix>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                margin-left: -7px;
+                                height: 45px;
+                                border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+
+                            </div>
+                            <input matInput type="number" min="0" formControlName="length" (change)="calcPrice()" />
+                            <mat-error>Largo es
+                                <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg col-5" style="margin-left: 0px;">
+
+                        <!-- <div class="col" style="margin-left: 20px;"> -->
+                        <mat-label>Ancho</mat-label>
+                        <mat-form-field appearance="outline" class="mat-form-field-fluid">
+                            <div matPrefix>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                margin-left: -7px;
+                                height: 45px;
+                                border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+                            </div>
+                            <input matInput type="number" min="0" formControlName="width" (change)="calcPrice()" />
+                            <mat-error>Ancho es
+                                <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg col-5" style="margin-left: 0px;">
+
+                        <!-- <div class="col" style="margin-left: 20px;"> -->
+                        <mat-label>Altura</mat-label>
+                        <mat-form-field appearance="outline" class="mat-form-field-fluid">
+                            <div matPrefix>
+                                <button tabindex="-1" type="button" class="btn btn-secondary dropdown-toggle" style="margin-top: -16px;
+                                margin-left: -7px;
+                                height: 45px;
+                                border-radius: 4px;" [matMenuTriggerFor]="menu">{{lengthType}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a class="dropdown-item" (click)="changelengthType('cm')">cm</a>
+                                    <a class="dropdown-item" (click)="changelengthType('inch')">inch</a>
+                                </mat-menu>
+                            </div>
+                            <input matInput type="number" min="0" formControlName="height" (change)="calcPrice()" />
+                            <mat-error>Altura es
+                                <strong>requerido</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg col-5" style="height: fit-content; margin-top: 20px; margin-left: 10px;">
+                        <mat-form-field class="mat-form-field-fluid" style="width: 100%">
+                            <mat-select placeholder="Tipo" [(ngModel)] = "selectedValue" formControlName="type" (selectionChange)="calcPrice(selectedValue, i)">
+                                <mat-option *ngFor="let type of packageTypes"  [value]="type.idpackageType">{{type.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg col-5">
+                        <div class="row" style="margin-top: 35px; width: fit-content; margin-left: auto;margin-right: auto;">
+                            <button *ngIf="i+1 == getControls().length" (click)="addPackage()" mat-button type="button">
+                                <mat-icon style="cursor:pointer">add</mat-icon>
+                            </button>
+                            <button *ngIf="getControls().length != 1" (click)="deletePackage()" mat-button type="button">
+                                <mat-icon  style="cursor:pointer">delete</mat-icon>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="separator separator-dashed my-6"></div>
+                <div>Establecer una orden</div> -->
+                <div class="separator separator-dashed my-6"></div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div style="font-size: 15px;"><strong>Precio de servicio: ${{totalPrice}}</strong></div>
+                        <div>Al procesar una orden con Holoexpress Panama usted acepta los <a href="https://holoexpresspanama.com/terminos-de-uso/" target="_blank">términos y condiciones del servicio</a>.</div>
+                    </div>
+                    <div class="col-sm-12 col-md col-lg">
+                        <div style="width: fit-content; margin-left: auto; font-size: 15px;"><strong>¿Deseas crear una orden?</strong></div>
+                        <button mat-raised-button color="primary" type="button" (click)="processOrder()" style="margin-left: auto;
+                        display: flex;
+                        margin-right: 15px;
+                        margin-top: 10px;">
+                            <span>Procesar orden</span>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,62 @@
+<div class="d-flex flex-column flex-root" id="kt_login_wrapper">
+    <div class="login login-3 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white" id="kt_login">
+        <!--begin::Aside-->
+        <div class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-10" style="background: #00ac97;">
+            <!-- style="background-image: url(./assets/media//bg/bg-4.jpg);"> -->
+            <!--begin: Aside Container-->
+            <div class="d-flex flex-row-fluid flex-column justify-content-between">
+                <!--begin: Aside header-->
+                <!-- <a href="#" class="flex-column-auto mt-5">
+					<img src="./assets/media/logos/holo.png" class="max-h-70px" />
+				</a> -->
+                <!--end: Aside header-->
+
+                <!--begin: Aside content-->
+                <div class="flex-column-fluid d-flex flex-column justify-content-center">
+                    <h3 class="font-size-h1 mb-5 text-white">Holo Express Panamá</h3>
+                    <p class="font-weight-lighter text-white opacity-80">
+                        La forma más fácil de solicitar mensajería en Panamá oeste
+                    </p>
+                </div>
+                <!--end: Aside content-->
+
+                <!--begin: Aside footer for desktop-->
+                <div class="d-none flex-column-auto d-lg-flex justify-content-between mt-10">
+                    <div class="opacity-70 font-weight-bold	text-white">
+                        &copy; 2020 Holoexpress Panama
+                    </div>
+                    <div class="d-flex">
+                        <!-- <a href="#" class="text-white">Privacidad</a> -->
+                        <a href="https://holoexpresspanama.com/terminos-de-uso/" class="text-white ml-10" target="_blank">Legal</a>
+                        <a href="https://holoexpresspanama.com/" class="text-white ml-10" target="_blank">Contacto</a>
+                    </div>
+                </div>
+                <!--end: Aside footer for desktop-->
+            </div>
+
+        </div>
+        <!--begin::Aside-->
+
+        <!--begin::Content-->
+        <div class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden" style="overflow-y: auto !important;">
+            <!--begin::Content header-->
+            <!-- <div *ngIf="loginSignupFlag" class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
+                <span class="font-weight-bold text-dark-50">
+					¿no tienes cuenta aún?
+				</span>
+                <a href="javascript:;" routerLink="/auth/register" class="font-weight-bold ml-2" id="kt_login_signup" (click)="loginSignup()">Crear Cuenta</a>
+            </div> -->
+            <!-- <div *ngIf="!loginSignupFlag" class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
+                <span class="font-weight-bold text-dark-50">
+					¿Ya tienes una cuenta?
+				</span>
+                <a href="javascript:;" routerLink="/auth/login" class="font-weight-bold ml-2" id="kt_login_signup" (click)="loginSignup()">Iniciar sesión</a>
+            </div> -->
+            <!--end::Content header-->
+
+            <router-outlet></router-outlet>
+
+        </div>
+        <!--end::Content-->
+    </div>
+</div>

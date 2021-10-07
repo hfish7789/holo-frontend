@@ -1,0 +1,207 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'card-head-lg'">
+        <ng-container ktPortletTitle>
+            Order &nbsp;&nbsp;&nbsp; {{order.idorders}} &nbsp;&nbsp;&nbsp; {{order.date}}
+        </ng-container>
+    </kt-portlet-header>
+    <kt-portlet-body>
+        <mat-card>
+            <mat-card-header>
+                Directions
+            </mat-card-header>
+            <div class="separator separator-dashed my-6"></div>
+            <mat-card-content style="display: grid; margin-left: 30px;">
+                <div style="display: flex; flex-direction: column;">
+                    <span>Order Type</span>
+                    <span><strong>{{order?.deliveryType == '1' ? "Servicio de Recogida" : "Entregar en Holo Express"}}</strong></span>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg col-sm-12 col-md-6" *ngIf="order.deliveryType == '1'">
+                        <div>Pickup Address</div>
+                        <div><strong>{{order.pickUpAddress}}</strong></div>
+                        <!-- <div style="color: blue;"><strong>custom notes about pickup</strong></div> -->
+                    </div>
+                    <div class="col-lg col-sm-12 col-md-6">
+                        <div>Delivery Address</div>
+                        <div><strong>{{order.deliveryAddress}}</strong></div>
+                    </div>
+                </div>
+
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top: 30px;">
+            <mat-card-header>
+                <span>Packages = {{order.items}}</span>
+            </mat-card-header>
+            <div class="separator separator-dashed my-6"></div>
+            <mat-card-content class="scrollview">
+                <mat-table style="min-width: 500px;" [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="tracking">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>tracking</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.tracking}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="weight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>weight</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.weight}}{{package.weightUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="volWeight">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>volWeight</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.volWeight}}{{package.weightUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="length">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>length</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.length}}{{package.lengthUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="width">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>width</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.width}}{{package.lengthUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="height">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>height</mat-header-cell>
+                        <mat-cell *matCellDef="let package">{{package.height}}{{package.lengthUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>type</mat-header-cell>
+                        <!-- <mat-cell *matCellDef="let package">{{package.type=='0'?'box':'container'}}</mat-cell> -->
+                        <mat-cell *matCellDef="let package">{{package.typeName}}</mat-cell>
+
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-top: 30px;">
+            <mat-card-header>
+                <div>Order History</div>
+                <button *ngIf='orderCompletedFlag' mat-raised-button color="primary" type="button" style="margin-left: auto;" (click)="deliveryProof()">
+                    <span>Delivery Proof</span>
+                </button>
+            </mat-card-header>
+            <div class="separator separator-dashed my-6"></div>
+            <mat-card-content style="display: grid; margin-left: 30px;">
+                <!-- <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                    <mat-step>
+                        <ng-template matStepLabel>
+                            <div>orden aceptado</div>
+                            <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                        </ng-template>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>
+                            <div>recibido</div>
+                            <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                        </ng-template>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>
+                            <div>Enviado</div>
+                            <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                        </ng-template>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>
+                            <div>Entregado</div>
+                            <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                        </ng-template>
+                    </mat-step>
+                </mat-horizontal-stepper> -->
+                <div class="container">
+                    <div class="row" style="font-weight: 500;
+                        font-size: 14px;">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div style="width: 20px;
+                                        height: 20px;
+                                        text-align: center;
+                                        border-radius: 10px;
+                                        color: white;
+                                        /* background: #3699ff; */
+                                        margin-top: 10px;" [ngStyle]="maxStatus >= 0 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                        1
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div>orden aceptado</div>
+                                    <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                                </div>
+                                <div class="col-3 hidemobile">
+                                    <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div style="width: 20px;
+                                        height: 20px;
+                                        text-align: center;
+                                        border-radius: 10px;
+                                        color: white;
+                                        /* background: #3699ff; */
+                                        margin-top: 10px;" [ngStyle]="maxStatus >= 2 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                        <!-- [ngStyle]="pickedUp == 'undefined' ? {'background': grey} : {'background': #3699ff}" -->
+                                        2
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div>recibido</div>
+                                    <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                                </div>
+                                <div class="col-3 hidemobile">
+                                    <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div style="width: 20px;
+                                        height: 20px;
+                                        text-align: center;
+                                        border-radius: 10px;
+                                        color: white;
+                                        /* background: #3699ff; */
+                                        margin-top: 10px;" [ngStyle]="maxStatus >= 3 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                        3
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div>Enviado</div>
+                                    <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                                </div>
+                                <div class="col-3 hidemobile">
+                                    <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-1">
+                                    <div style="width: 20px;
+                                        height: 20px;
+                                        text-align: center;
+                                        border-radius: 10px;
+                                        color: white;
+                                        /* background: #3699ff; */
+                                        margin-top: 10px;" [ngStyle]="maxStatus >= 4 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                        4
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div>Entregado</div>
+                                    <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </kt-portlet-body>
+</kt-portlet>

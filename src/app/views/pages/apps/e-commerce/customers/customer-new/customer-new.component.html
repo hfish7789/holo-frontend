@@ -1,0 +1,129 @@
+<div class="card card-custom">
+    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+        Oh snap! Change a few things up and try submitting again.
+    </kt-alert>
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Nuevo Cliente</h3>
+        </div>
+        <div style="height: fit-content;
+        margin-top: auto;
+        margin-bottom: auto;">
+            <button type="button" mat-raised-button color="primary" (click)="close()" style="height: 36px; margin-top: auto; margin-bottom: auto;">
+                Cancel
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" mat-raised-button color="primary" (click)="save()" style="height: 36px; margin-top: auto; margin-bottom: auto;">
+                Save
+            </button>
+        </div>
+    </div>
+
+    <form class="card-body" [formGroup]="customerForm">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Ingrese un nombre" formControlName="firstName" />
+                    <mat-error>Nombre es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Nombre</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Ingrese un apellido" formControlName="lastName" />
+                    <mat-error>apellido es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>apellido</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input type="email" matInput placeholder="Ingrese Email" formControlName="email" />
+                    <mat-error>Email es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Email</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Ingrese teléfono" formControlName="phone" />
+                    <mat-error>teléfono es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>teléfono</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Ingrese celular" formControlName="mobile" />
+                    <mat-error>celular es
+                        <strong> requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>celular</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Ingrese Compañia" formControlName="company" />
+                    <mat-error>Compañia es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Compañia</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="R.U.C" formControlName="ruc" />
+                    <mat-error>R.U.C es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>R.U.C</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Dirección" formControlName="address" />
+                    <mat-error>Dirección es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Dirección</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Cliente Grupo" formControlName="type">
+                        <mat-option *ngFor="let customerGroup of customerGroups" [value]="customerGroup.idcustomerGroup">{{customerGroup.name}}</mat-option>
+                    </mat-select>
+                    <mat-hint align="start">
+                        <strong>Grupo de Clientes</strong>
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+
+</div>

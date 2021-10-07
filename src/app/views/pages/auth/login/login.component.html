@@ -1,0 +1,68 @@
+<div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
+    <!--begin::Signin-->
+    <div class="login-form login-signin">
+        <div class="text-center mb-10 mb-lg-20">
+
+            <a href="#" class="flex-column-auto mt-5">
+                <img style="margin-top: 0px; margin-bottom: 30px;" src="./assets/media/logos/holo.png" class="max-h-70px" />
+            </a>
+
+            <h3 class="font-size-h1">Inicie sesión</h3>
+            <p class="text-muted font-weight-bold">
+                Ingrese usuario y contraseña
+            </p>
+        </div>
+
+        <kt-auth-notice></kt-auth-notice>
+        <!-- <mat-checkbox [(ngModel)]="roleFlag" (click)="changeRole()">{{roleTitle}}</mat-checkbox> -->
+        <!--begin::Form-->
+        <form class="form" [formGroup]="loginForm" autocomplete="off" novalidate="novalidate" id="kt_login_form">
+            <div class="form-group">
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" placeholder="Email" formControlName="email" autocomplete="off" />
+                    <mat-error *ngIf="isControlHasError('email', 'required')">
+                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'email')">
+                        <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'minlength')">
+                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'maxlength')">
+                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" placeholder="Contraseña" formControlName="password" autocomplete="off" />
+                    <mat-error *ngIf="isControlHasError('password', 'required')">
+                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('password', 'minlength')">
+                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('password', 'maxlength')">
+                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 100</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!--begin::Action-->
+            <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+                <a href="javascript:;" routerLink="/auth/forgot-password" class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot">Olvide mi contraseña</a>
+                <!-- <a href="javascript:;" routerLink="/auth/register" class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot">Don't have an account? register</a> -->
+                <button id="kt_login_signin_submit" (click)="submit()" class="btn btn-primary font-weight-bold px-9 py-4 my-3">Inicie sesión</button>
+                <!-- [ngClass]="{
+            'spinner spinner-right spinner-md spinner-light': loading
+          }" -->
+
+            </div>
+            <!--end::Action-->
+        </form>
+        <!--end::Form-->
+    </div>
+    <!--end::Signin-->
+</div>

@@ -1,0 +1,163 @@
+<mat-card style="width: 100%; height: 100%;">
+    <div class="container" [formGroup]="scanForm" style="height: 100%;">
+        <div class="row">
+            <img id="holoLog" style="margin-top: 10%; width: 20%; margin-left: auto; margin-right: auto;" src="./assets/media/logos/holo.png" />
+        </div>
+        <!-- <div class="row" style="height: 14vh; border: 1px solid; margin-top: 5vh;">
+                Tracking
+            </div> -->
+        <mat-form-field id="trackingInput" class="mat-form-field-fluid" style="width: 80%;font-size: 50px;margin-left: auto;margin-right: auto;">
+            <input #scanInput matInput placeholder="Ingrese su tracking..." formControlName="idControl" (keydown.enter)="track()" [(ngModel)]="trackingID" />
+        </mat-form-field>
+        <!-- <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="stepperFlag">
+                <mat-step>
+                    <ng-template matStepLabel>
+                        <div>orden aceptado</div>
+                        <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                    </ng-template>
+                </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>
+                        <div>recibido</div>
+                        <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                    </ng-template>
+                </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>
+                        <div>Enviado</div>
+                        <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                    </ng-template>
+                </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>
+                        <div>Entregado</div>
+                        <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                    </ng-template>
+                </mat-step>
+            </mat-horizontal-stepper> -->
+        <div class="container" *ngIf="stepperFlag">
+            <div class="row" style="font-weight: 500;
+                font-size: 14px;">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                border-radius: 10px;
+                                color: white;
+                                /* background: #3699ff; */
+                                margin-top: 10px;" [ngStyle]="maxStatus >= 0 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                1
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>orden aceptado</div>
+                            <div>{{accepted == 'undefined' ? '' : accepted}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                border-radius: 10px;
+                                color: white;
+                                /* background: #3699ff; */
+                                margin-top: 10px;" [ngStyle]="maxStatus >= 2 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                <!-- [ngStyle]="pickedUp == 'undefined' ? {'background': grey} : {'background': #3699ff}" -->
+                                2
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>recibido</div>
+                            <div>{{pickedUp == 'undefined' ? '' : pickedUp}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                border-radius: 10px;
+                                color: white;
+                                /* background: #3699ff; */
+                                margin-top: 10px;" [ngStyle]="maxStatus >= 3 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                3
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>Enviado</div>
+                            <div>{{bodega == 'undefined' ? '' : bodega}}</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="separator separator-dashed my-6" style="border-bottom: 1px dashed grey !important;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-1">
+                            <div style="width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                border-radius: 10px;
+                                color: white;
+                                /* background: #3699ff; */
+                                margin-top: 10px;" [ngStyle]="maxStatus >= 4 ? {'background': '#3699ff'} : {'background': 'grey'}">
+                                4
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div>Entregado</div>
+                            <div>{{porEntregar == 'undefined' ? '' : porEntregar}}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div style="font-size: 50px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+            padding: 25px;
+            margin-bottom: 30px;" class="status2" *ngIf="statusTitle != undefined">
+            {{statusTitle}}
+        </div>
+        <div class="row" style="width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;">
+            <button mat-raised-button color="primary" type="button" (click)="track()">
+                    <span>Buscar</span>
+                </button>
+        </div>
+
+        <!-- <div class="row">
+            <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="display: flex; cursor: pointer;">
+                <div>
+                    ¿Ya tienes una cuenta?
+                </div>
+                <div style="margin-left: 10px;">
+                    Regístrate
+                </div>
+            </div>
+            <div class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot" style="margin-left: auto; cursor: pointer;">
+                ¿Crea una cuenta?
+            </div>
+        </div> -->
+    </div>
+</mat-card>

@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-header>
+        Delivery Proof
+    </mat-card-header>
+    <div class="separator separator-dashed my-6"></div>
+    <mat-card-content style="display: grid; margin-left: 30px;">
+        <div class="row">
+            <div class="col">
+                <div>Received by</div>
+                <div><strong>{{proof?.receiver}}</strong></div>
+            </div>
+            <div class="col">
+                <div>Extra Comments</div>
+                <div><strong>{{proof?.detail}}</strong></div>
+            </div>
+        </div>
+        <img src={{proof?.imgPath}} style="width: 80%;margin-left: auto;margin-right: auto;margin-top: 20px;border: black 1px solid;" />
+
+    </mat-card-content>
+</mat-card>

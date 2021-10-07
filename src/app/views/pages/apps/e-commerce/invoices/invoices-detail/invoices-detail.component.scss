@@ -1,0 +1,42 @@
+.mat-column-total {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+@media print {
+    // @page {
+    //     margin: 0;
+    //     size: 2in 4in !important;
+    //     /* auto is the initial value */
+    //     margin: 0mm;
+    //     /* this affects the margin in the printer settings */
+    // }
+    // body {
+    //     margin: 0cm;
+    //     width: 2in;
+    //     height: 4in;
+    // }
+    body * {
+        visibility: hidden;
+        // width: 2in;
+        // height: 4in;
+    }
+    #print,
+    #print * {
+        visibility: visible;
+    }
+    .no-print,
+    .no-print * {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}

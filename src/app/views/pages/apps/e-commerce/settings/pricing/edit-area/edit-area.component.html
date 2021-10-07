@@ -1,0 +1,116 @@
+<mat-card>
+    <mat-card-header>
+        <div style="height: fit-content; margin-top: auto;">{{data.dialog == "addArea" ? 'Add Sub-zona' : 'Edit Sub-zona'}}</div>
+        <button *ngIf="data.dialog == 'addArea'" style="margin-left: auto;" type="button" mat-raised-button color="primary" (click)="addArea()">
+            Agregar
+        </button>
+        <button *ngIf="data.dialog == 'editArea'" style="margin-left: auto;" type="button" mat-raised-button color="primary" (click)="editArea()">
+            Save
+        </button>
+    </mat-card-header>
+    <div class="separator separator-dashed my-6"></div>
+    <mat-card-content>
+        <form class="card-body">
+            <div class="row" [formGroup]="areaForm">
+                <mat-form-field *ngIf="data.dialog == 'addArea'" class="mat-form-field-fluid" style="margin-right: 50px;">
+                    <mat-select placeholder="Guardar" formControlName="state">
+                        <mat-option *ngFor="let state of states" [value]="state.idstates">{{state.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>Zona es
+                        <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="customerGroup" class="mat-form-field-fluid">
+                    <input matInput style="color: black;" placeholder="Grupo de clientes" [value]="customerGroup" disabled/>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="data.dialog == 'editArea'" class="mat-form-field-fluid" style="margin-right: 50px;">
+                    <input style="color: black;" matInput placeholder="Zona" [value]="editState" disabled/>
+
+                    <!-- <mat-hint align="start">Please enter
+                        <strong>Sub-zona Name</strong>
+                    </mat-hint> -->
+                </mat-form-field>
+
+                <mat-form-field class="mat-form-field-fluid" style="margin-right: 50px;">
+                    <input matInput placeholder="Sub-zona" formControlName="area" />
+                    <mat-error>Sub-zona es
+                        <strong>requerido</strong>
+                    </mat-error>
+                    <mat-hint align="start">Por favor ingrese
+                        <strong>Sub-zona</strong>
+                    </mat-hint>
+                </mat-form-field>
+
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select placeholder="Estado" formControlName="areaStatus">
+                        <mat-option value="0">
+                            <div class="status3">Activo</div>
+                        </mat-option>
+                        <mat-option value="1">
+                            <div class="status1">Inactivo</div>
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Estado es
+                        <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div style="margin-top: 30px" *ngFor="let price of getControls();let i = index" [formGroup]="price">
+                <div>{{packageTypes[i].name}}</div>
+                <div class="row">
+                    <mat-form-field class="mat-form-field-fluid" style="margin-right: 30px; width: 15% !important;">
+                        <input matInput placeholder="Base Price" type="number" min="0" formControlName="basePrice" />
+                        <mat-error>Base Price es
+                            <strong>requerido</strong>
+                        </mat-error>
+                        <mat-hint align="start">Por favor ingrese
+                            <strong>Base Price</strong>
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-form-field-fluid" style="margin-right: 30px; width: 15% !important;">
+                        <input matInput placeholder="Extra RV" type="number" min="0" formControlName="extraRV" />
+                        <mat-error>Extra RV es
+                            <strong>requerido</strong>
+                        </mat-error>
+                        <mat-hint align="start">Por favor ingrese
+                            <strong>Extra RV</strong>
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-form-field-fluid" style="margin-right: 30px; width: 15% !important;">
+                        <input matInput placeholder="Extra RW" type="number" min="0" formControlName="extraRW" />
+                        <mat-error>Extra RW es
+                            <strong>requerido</strong>
+                        </mat-error>
+                        <mat-hint align="start">Por favor ingrese
+                            <strong>Extra RW</strong>
+                        </mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-form-field-fluid" style="margin-right: 30px; width: 15% !important;">
+                        <input matInput placeholder="Domicilio" type="number" min="0" formControlName="pickup" />
+                        <mat-error>Domicilio es
+                            <strong>requerido</strong>
+                        </mat-error>
+                        <mat-hint align="start">Por favor ingrese
+                            <strong>Domicilio</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="mat-form-field-fluid" style="width: 15% !important;">
+                        <input matInput placeholder="Location Price" type="number" min="0" formControlName="locationPrice" />
+                        <mat-error>Location Price es
+                            <strong>requerido</strong>
+                        </mat-error>
+                        <mat-hint align="start">Por favor ingrese
+                            <strong>Location Price</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
